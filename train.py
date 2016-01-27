@@ -15,6 +15,8 @@ def main():
                        help='data directory containing input.txt')
     parser.add_argument('--save_dir', type=str, default='save',
                        help='directory to store checkpointed models')
+    parser.add_argument('--dropout', type=float, default=0.7,
+                       help='dropout')
     parser.add_argument('--rnn_size', type=int, default=128,
                        help='size of RNN hidden state')
     parser.add_argument('--num_layers', type=int, default=2,

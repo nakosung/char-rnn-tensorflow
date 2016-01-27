@@ -21,8 +21,13 @@ class Model():
             raise Exception("model type not supported: {}".format(args.model))
 
         cell = cell_fn(args.rnn_size)
+        if args.dropout > 0:
+            up_cell = rnn_cell.DropoutWrapper(cell, output_keep_prob = args.dropout)
+        else:
+            up_cell = cell
 
-        self.cell = cell = rnn_cell.MultiRNNCell([cell] * args.num_layers)
+        self.cell = cell = rnn_cell.MultiRNNCell([up_cell] * (args.num_layers-1)
+                + [cell])
 
         self.input_data = tf.placeholder(tf.int32, [args.batch_size, args.seq_length])
         self.targets = tf.placeholder(tf.int32, [args.batch_size, args.seq_length])
